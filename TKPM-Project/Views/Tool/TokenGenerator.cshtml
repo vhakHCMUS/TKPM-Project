@@ -1,8 +1,27 @@
-﻿@{
-    ViewData["Title"] = "Token Generator";
-}
+﻿<!-- TokenGenerator.cshtml -->
+@model TKPM_Project.Controllers.Tools.ToolServiceViewModel
 
-<div class="text-center">
-    <h1 class="display-4">Token Generator</h1>
-    <p>You are currently on the Token Generator page.</p>
-</div>
+<h1>@Model.Tool.GetName()</h1>
+
+<button onclick="executeTool()">Generate Token</button>
+<div id="result"></div>
+
+<script>
+    function executeTool() {
+        fetch('/Tool/Execute/TokenGenerator', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.text())  // Sử dụng text() thay vì json()
+        .then(data => {
+            console.log("Response from server:", data);  // In kết quả nhận được
+            document.getElementById('result').innerText = data;  // Hiển thị chuỗi kết quả
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+</script>
+

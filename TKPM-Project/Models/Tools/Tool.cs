@@ -26,9 +26,10 @@
 
         public string GetPath()
         {
-            // Trả về đường dẫn dựa trên tên công cụ
-            return $"/Tool/{Name}";
+            // Trả về đường dẫn dựa trên tên công cụ, bỏ dấu cách trong tên công cụ
+            return $"/Tool/{Name.Replace(" ", "")}";
         }
+
     }
 
 }

@@ -1,38 +1,70 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TKPM_Project.Models.Tools;
 using System.Collections.Generic;
+using System.Linq;
+using System;
+using TKPM_Project.Services;
 using TKPM_Project.Models;
 
 namespace TKPM_Project.Controllers.Tools
 {
     public class ToolController : Controller
     {
-        // Action Index cho trang Tool
+        private readonly IServiceProvider _serviceProvider;
+
+        public ToolController(IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+        }
+
         public IActionResult Index()
         {
-            // Sử dụng ToolLoader để tải tất cả các tool
             List<ITool> tools = ToolLoader.LoadTools();
-            // Truyền danh sách tools vào View
             return View(tools);
         }
 
-        // Action để xử lý request đến các tool cụ thể
         public IActionResult Tool(string toolName)
         {
-            // Tải danh sách tools (có thể bạn sẽ muốn tối ưu việc này sau)
             List<ITool> tools = ToolLoader.LoadTools();
-
-            // Tìm tool dựa vào tên
             ITool tool = tools.FirstOrDefault(t =>
                 t.GetName().ToLower() == toolName.ToLower());
 
             if (tool == null)
             {
-                return NotFound(); // Trả về 404 nếu không tìm thấy tool
+                return NotFound();
             }
 
-            // Trả về view có tên trùng với tên của tool
+            var serviceType = Type.GetType($"TKPM_Project.Services.{toolName}Service");
+            if (serviceType != null)
+            {
+                var serviceInstance = _serviceProvider.GetService(serviceType);
+                var viewModel = new ToolServiceViewModel
+                {
+                    Tool = tool,
+                    Service = serviceInstance
+                };
+
+                return View(toolName, viewModel);
+            }
+
             return View(toolName, tool);
+        }
+
+        [HttpPost]
+        [Route("Tool/Execute/{toolName}")]
+        public IActionResult Execute(string toolName)
+        {
+            var services = _serviceProvider.GetServices<IService>();
+            var service = services.FirstOrDefault(s => s.GetType().Name == $"{toolName}Service");
+
+            if (service == null)
+            {
+                return BadRequest(new { error = $"Could not resolve service for tool '{toolName}'." });
+            }
+
+            object result = service.Execute();
+            return result != null ? Ok(result) : BadRequest(new { error = "Service returned null." });
+
         }
     }
 }

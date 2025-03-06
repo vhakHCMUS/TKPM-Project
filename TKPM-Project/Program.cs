@@ -1,12 +1,25 @@
-using TKPM_Project.Models;
+﻿using TKPM_Project.Models;
 using TKPM_Project.Repositories;
 using Microsoft.EntityFrameworkCore;
 using TKPM_Project.Data;
+using TKPM_Project.Services;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Tự động đăng ký tất cả các class triển khai IService
+var serviceInterfaceType = typeof(IService);
+var allServiceTypes = Assembly.GetExecutingAssembly()
+    .GetTypes()
+    .Where(t => serviceInterfaceType.IsAssignableFrom(t) && t.IsClass && !t.IsAbstract);
+
+foreach (var serviceType in allServiceTypes)
+{
+    builder.Services.AddScoped(serviceInterfaceType, serviceType);
+}
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -45,6 +58,5 @@ app.MapControllerRoute(
     name: "tool",
     pattern: "Tool/{toolName}",
     defaults: new { controller = "Tool", action = "Tool" });
-
 
 app.Run();
