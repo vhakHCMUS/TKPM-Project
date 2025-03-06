@@ -1,25 +1,29 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using TKPM_Project.Models;
 using TKPM_Project.Repositories;
+using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 
 namespace TKPM_Project.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IAccountRepository _accountRepository;
 
-        public HomeController(ILogger<HomeController> logger, IAccountRepository accountRepository)
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            _accountRepository = accountRepository;
         }
 
+        // Index action sẽ load tất cả các tools và hiển thị chúng trên giao diện
         public IActionResult Index()
         {
-            var accounts = _accountRepository.GetAll();
-            return View(accounts);
+            // Sử dụng ToolLoader để lấy danh sách các tools
+            List<ITool> tools = ToolLoader.LoadTools();
+
+            // Truyền danh sách tools vào View
+            return View(tools);
         }
 
         public IActionResult Privacy()

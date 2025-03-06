@@ -1,14 +1,16 @@
-﻿@model IEnumerable<TKPM_Project.Models.Account>
+﻿@model IEnumerable<ITool>
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-
-    <a href="@Url.Action("Login", "Account")" class="btn btn-primary">Login</a>
+    <h1 class="display-4">Tools Available</h1>
 
     <ul>
-        @foreach (var account in Model)
+        @foreach (var tool in Model)
         {
-            <li>@account.Id - @account.Username - @account.Role</li>
+            <li>
+                Tool: @tool.GetName() -
+                Description: @tool.GetDescription() -
+                Path: @tool.GetPath()
+            </li>
         }
     </ul>
 </div>
