@@ -12,7 +12,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Register the MockAccountRepository
-builder.Services.AddSingleton<IAccountRepository, MockAccountRepository>();
+builder.Services.AddScoped<IAccountRepository, MockAccountRepository>();
 
 var app = builder.Build();
 

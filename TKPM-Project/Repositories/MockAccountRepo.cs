@@ -14,7 +14,7 @@ namespace TKPM_Project.Repositories
     {
         private readonly List<Account> _accounts = new()
         {
-            new Account { Id = 1, Username = "admin", PasswordHash = "hashedpass", Role = "Admin" },
+            new Account { Id = 1, Username = "admin123", PasswordHash = "hashedpass", Role = "Admin" },
             new PremiumAccount { Id = 2, Username = "premiumUser", PasswordHash = "premiumhash", PremiumExpiryDate = DateTime.Now.AddMonths(1) },
             new GuestAccount { Id = 3, GuestSessionExpiry = DateTime.Now.AddHours(2), Username = "Guest", PasswordHash = string.Empty }
         };
