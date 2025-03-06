@@ -1,0 +1,15 @@
+﻿@model TKPM_Project.Models.Account
+
+<h2>Account Profile</h2>
+
+<p><strong>Username:</strong> @Model.Username</p>
+<p><strong>Role:</strong> @Model.Role</p>
+
+@if (Model is TKPM_Project.Models.PremiumAccount premium)
+{
+    <p><strong>Premium Expiry:</strong> @premium.PremiumExpiryDate</p>
+}
+@if (Model is TKPM_Project.Models.GuestAccount guest)
+{
+    <p><strong>Guest Session Expiry:</strong> @guest.GuestSessionExpiry</p>
+}
