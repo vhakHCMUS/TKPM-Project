@@ -1,3 +1,5 @@
+using TKPM_Project.Models;
+using TKPM_Project.Repositories;
 using Microsoft.EntityFrameworkCore;
 using TKPM_Project.Data;
 
@@ -9,6 +11,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Register the MockAccountRepository
+builder.Services.AddSingleton<IAccountRepository, MockAccountRepository>();
 
 var app = builder.Build();
 
