@@ -31,12 +31,20 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+// Default route
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+// Login route
 app.MapControllerRoute(
     name: "login",
     pattern: "{controller=Account}/{action=Login}");
+
+app.MapControllerRoute(
+    name: "tool",
+    pattern: "Tool/{toolName}",
+    defaults: new { controller = "Tool", action = "Tool" });
+
 
 app.Run();

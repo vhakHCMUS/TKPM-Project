@@ -1,16 +1,31 @@
 ﻿@model IEnumerable<ITool>
 
-<div class="text-center">
-    <h1 class="display-4">Tools Available</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Nút đăng nhập ở góc phải trên cùng -->
+            <div class="d-flex justify-content-end">
+                <a href="@Url.Action("Login", "Account")" class="btn btn-primary">Login</a>
+            </div>
 
-    <ul>
-        @foreach (var tool in Model)
-        {
-            <li>
-                Tool: @tool.GetName() -
-                Description: @tool.GetDescription() -
-                Path: @tool.GetPath()
-            </li>
-        }
-    </ul>
+            <!-- Tiêu đề -->
+            <div class="text-center">
+                <h1 class="display-4">Tools Available</h1>
+            </div>
+
+            <!-- Danh sách các công cụ -->
+            <ul class="list-group">
+                @foreach (var tool in Model)
+                {
+                    <li class="list-group-item">
+                        <strong>Tool:</strong> @tool.GetName() <br />
+                        <strong>Description:</strong> @tool.GetDescription() <br />
+
+                        <!-- Chuyển tiếp đến trang của công cụ -->
+                        <a href="@tool.GetPath()" class="btn btn-info mt-2">Go to @tool.GetName()</a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
 </div>

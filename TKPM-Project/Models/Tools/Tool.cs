@@ -27,7 +27,7 @@
         public string GetPath()
         {
             // Trả về đường dẫn dựa trên tên công cụ
-            return $"/Tools/{Name}";
+            return $"/Tool/{Name}";
         }
     }
 

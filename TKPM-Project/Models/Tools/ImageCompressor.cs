@@ -3,7 +3,7 @@
     public class ImageCompressor : Tool
     {
         public ImageCompressor()
-            : base("Image Compressor", "Compresses images to reduce file size", "image_compressor_avatar.png")
+            : base("ImageCompressor", "Compresses images to reduce file size", "image_compressor_avatar.png")
         {
         }
 
